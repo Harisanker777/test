@@ -91,6 +91,21 @@ namespace bankapp
     }
 }
         // update balance
+        public void UpdateBalance(decimal newBalance)
+ {
+     using (var connection = new SqliteConnection($"Data Source={_dbPath}"))
+     {
+         connection.Open();
+
+         string updateBalance = "UPDATE Users SET Balance = @balance;";
+
+         using (var command = new SqliteCommand(updateBalance, connection))
+         {
+             command.Parameters.AddWithValue("@balance", newBalance);
+             command.ExecuteNonQuery();
+         }
+     }
+ }
        
     }
 }
