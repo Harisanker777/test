@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Maui;
+using Microsoft.Maui.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace bankapp
 {
@@ -15,9 +17,8 @@ namespace bankapp
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
-#if DEBUG
-    		builder.Logging.AddDebug();
-#endif
+            // Register SQLiteService for dependency injection
+            builder.Services.AddSingleton<SQLiteService>();
 
             return builder.Build();
         }
