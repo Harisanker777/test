@@ -44,3 +44,24 @@ namespace bankapp
                 await DisplayAlert("Error", "Invalid username or password.", "OK");
             }
         }
+private async void OnUserDetailsClicked(object sender, EventArgs e)
+{
+    string action = await DisplayActionSheet("User Details", "Cancel", null, "View Details", "Edit Details");
+
+    if (action == "View Details")
+    {
+        await DisplayAlert("User Details", $"Username: {_username}", "OK");
+    }
+    else if (action == "Edit Details")
+    {
+        string newName = await DisplayPromptAsync("Edit Details", "Enter new username:");
+
+        if (!string.IsNullOrWhiteSpace(newName))
+        {
+            _dbService.UpdateUserName(newName); // Update DB
+            _username = newName;
+            UsernameLabel.Text = $"Welcome, {_username}";
+            await DisplayAlert("Success", "Username updated successfully!", "OK");
+        }
+    }
+}
