@@ -72,3 +72,44 @@ private async void OnUserDetailsClicked(object sender, EventArgs e)
       string accountDetails = $"Account Holder: {user.Username}\nBalance: {user.Balance:C}";
       await DisplayAlert("Account Details", accountDetails, "OK");
   }
+        // Money Transfer Logic
+        private async void OnMoneyTransferClicked(object sender, EventArgs e)
+        {
+            string action = await DisplayActionSheet("Money Transfer", "Cancel", null, "Deposit Money", "Withdraw Money", "Show Balance");
+
+            if (action == "Deposit Money")
+            {
+                string depositAmount = await DisplayPromptAsync("Deposit Money", "Enter amount to deposit:", keyboard: Keyboard.Numeric);
+
+                if (decimal.TryParse(depositAmount, out decimal deposit) && deposit > 0)
+                {
+                    _balance += deposit;
+                    _dbService.UpdateBalance(_balance); // Update DB
+                    await DisplayAlert("Success", $"Deposited {deposit:C}. New balance: {_balance:C}", "OK");
+                }
+            }
+            else if (action == "Withdraw Money")
+            {
+                string withdrawAmount = await DisplayPromptAsync("Withdraw Money", "Enter amount to withdraw:", keyboard: Keyboard.Numeric);
+
+                if (decimal.TryParse(withdrawAmount, out decimal withdraw) && withdraw > 0)
+                {
+                    if (withdraw <= _balance)
+                    {
+                        _balance -= withdraw;
+                        _dbService.UpdateBalance(_balance); // Update DB
+                        await DisplayAlert("Success", $"Withdrew {withdraw:C}. New balance: {_balance:C}", "OK");
+                    }
+                    else
+                    {
+                        await DisplayAlert("Error", "Insufficient balance.", "OK");
+                    }
+                }
+            }
+            else if (action == "Show Balance")
+            {
+                await DisplayAlert("Balance", $"Your current balance is {_balance:C}", "OK");
+            }
+        }
+    }
+}
