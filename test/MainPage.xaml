@@ -23,4 +23,5 @@
             <Button Text="Account Details" Clicked="OnAccountDetailsClicked" />
             <Button Text="Money Transfer" Clicked="OnMoneyTransferClicked" />
         </StackLayout>
+ </StackLayout>
 </ContentPage>
