@@ -15,4 +15,12 @@
 
             <Button Text="Login" Clicked="OnLoginClicked" />
         </StackLayout>
+<!-- Home Section -->
+        <StackLayout x:Name="HomeLayout" IsVisible="False">
+            <Label x:Name="UsernameLabel" FontSize="Large" Text="Welcome, User!" />
+
+            <Button Text="User Details" Clicked="OnUserDetailsClicked" />
+            <Button Text="Account Details" Clicked="OnAccountDetailsClicked" />
+            <Button Text="Money Transfer" Clicked="OnMoneyTransferClicked" />
+        </StackLayout>
 </ContentPage>
