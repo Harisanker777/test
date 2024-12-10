@@ -1,25 +1,46 @@
-﻿namespace test
+using Microsoft.Maui.Controls;
+using System;
+
+namespace bankapp
 {
     public partial class MainPage : ContentPage
     {
-        int count = 0;
+        private SQLiteService _dbService;
+        private string _username = string.Empty; // Default value to handle nullability
+        private decimal _balance = 0;
 
         public MainPage()
         {
             InitializeComponent();
+            _dbService = new SQLiteService();
         }
 
-        private void OnCounterClicked(object sender, EventArgs e)
+        // Login Logic
+        private async void OnLoginClicked(object sender, EventArgs e)
         {
-            count++;
+            string username = UsernameEntry.Text;
+            string password = PasswordEntry.Text;
 
-            if (count == 1)
-                CounterBtn.Text = $"Clicked {count} time";
+            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
+            {
+                await DisplayAlert("Error", "Please fill in both fields.", "OK");
+                return;
+            }
+
+            if (_dbService.ValidateUser(username, password))
+            {
+                // Switch to Home layout
+                LoginLayout.IsVisible = false;
+                HomeLayout.IsVisible = true;
+
+                // Set the username and balance
+                var user = _dbService.GetUser();
+                _username = user.Username;
+                _balance = user.Balance;
+                UsernameLabel.Text = $"Welcome, {_username}";
+            }
             else
-                CounterBtn.Text = $"Clicked {count} times";
-
-            SemanticScreenReader.Announce(CounterBtn.Text);
+            {
+                await DisplayAlert("Error", "Invalid username or password.", "OK");
+            }
         }
-    }
-
-}
