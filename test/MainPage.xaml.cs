@@ -65,3 +65,10 @@ private async void OnUserDetailsClicked(object sender, EventArgs e)
         }
     }
 }
+// Account Details Logic
+  private async void OnAccountDetailsClicked(object sender, EventArgs e)
+  {
+      var user = _dbService.GetUser();
+      string accountDetails = $"Account Holder: {user.Username}\nBalance: {user.Balance:C}";
+      await DisplayAlert("Account Details", accountDetails, "OK");
+  }
