@@ -74,8 +74,22 @@ namespace bankapp
             }
             return ("Unknown", 0);
         }
-        //update username
-        
+     
+        public void UpdateUserName(string newUsername)
+           {
+             using (var connection = new SqliteConnection($"Data Source={_dbPath}"))
+                {
+        connection.Open();
+
+        string updateUsername = "UPDATE Users SET Username = @username;";
+
+        using (var command = new SqliteCommand(updateUsername, connection))
+        {
+            command.Parameters.AddWithValue("@username", newUsername);
+            command.ExecuteNonQuery();
+        }
+    }
+}
         // update balance
        
     }
