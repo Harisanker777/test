@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 
-namespace test
+namespace bankapp
 {
     public static class MauiProgram
     {
