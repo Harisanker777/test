@@ -1,4 +1,4 @@
-﻿namespace test
+﻿namespace bankapp
 {
     public partial class App : Application
     {
